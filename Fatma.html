@@ -1,64 +1,55 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Traffic Incidents Visualization</title>
-  <script src="https://cdn.jsdelivr.net/npm/vega@5.21.0"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.3.0"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.21.0"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega@5.30.0"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.20.1"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.26.0"></script>
 </head>
 <body>
-
-  <h1>Traffic Incidents Data</h1>
   <div id="vis"></div>
-
   <script>
     const spec = {
       "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
       "data": {
         "url": "https://raw.githubusercontent.com/sheriefAbdallah/CS318/main/Traffic_Incidents.csv",
-        "format": { "type": "csv" }
+        "format": {"type": "csv"}
       },
       "vconcat": [
         {
           "width": 700,
           "height": 80,
-          "mark": { "type": "area", "color": "orange" },
+          "mark": {"type": "area", "color": "orange"},
           "encoding": {
             "x": {
-              "timeUnit": "yearmonth",
+              "timeUnit": "month",
               "field": "acci_time",
               "type": "temporal",
               "axis": {
-                "title": "Date",
-                "format": "%b %Y"
+                "title": "Month",
+                "format": "%b",
+                "labelAngle": 0,
+                "labelOverlap": false
               },
-              "scale": {
-                "domain": { "selection": "brush" }
-              }
+              "scale": {"domain": {"selection": "brush"}}
             },
             "y": {
               "aggregate": "count",
               "field": "acci_id",
               "type": "quantitative",
               "title": "Number of Accidents",
-              "scale": { "domainMax": 1500 }
+              "scale": {"domainMax": 1500}
             }
           }
         },
         {
           "width": 700,
           "height": 150,
-          "mark": { "type": "area", "color": "orange" },
+          "mark": {"type": "area", "color": "orange"},
           "selection": {
             "brush": {
               "type": "interval",
               "encodings": ["x"],
-              "mark": {
-                "fillOpacity": 0.6,
-                "stroke": "black"
-              }
+              "mark": {"fillOpacity": 0.6, "stroke": "black"}
             }
           },
           "encoding": {
@@ -66,29 +57,22 @@
               "timeUnit": "year",
               "field": "acci_time",
               "type": "temporal",
-              "axis": {
-                "title": "Year",
-                "format": "%Y"
-              }
+              "axis": {"title": "Year", "format": "%Y"}
             },
             "y": {
               "aggregate": "count",
               "field": "acci_id",
               "type": "quantitative",
-              "axis": {
-                "tickCount": 7,
-                "grid": true
-              },
+              "axis": {"tickCount": 7, "grid": true},
               "title": "Number of Accidents",
-              "scale": { "domainMax": 20000 }
+              "scale": {"domainMax": 20000}
             }
           }
         }
-      ]
+      ],
+      "config": {}
     };
-
-    vegaEmbed('#vis', spec);
+    vegaEmbed("#vis", spec, {mode: "vega-lite"}).then(console.log).catch(console.warn);
   </script>
-
 </body>
 </html>
